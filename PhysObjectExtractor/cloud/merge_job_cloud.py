@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# In a root container, if input files are in /mnt/vol/processName run with python3 merge_jobs.py /mnt/vol 
 
 import ROOT
 from ROOT import TFile, TDirectory, TTree
@@ -26,10 +27,12 @@ def main(input_dir):
         raise Exception("Input is no directory: %s"%(input_dir))
 
     # Extract process from path
+    # Noora: I'me guessing that this would be e.g. DoubleMuParked if we use the dataset for the current default input file
     process = os.path.basename(input_dir)
     print("Process: %s"%(process))
 
-    """
+    # Noora: this expects the file list to be under a data directory in the current working dir - let's add them there then...
+    #        there could be a step 0 to prepare that (i.e. before the actual processing step)
     # Get expected number of files
     if not os.path.exists("data/") or not os.path.isdir("data/"):
         raise Exception("Directory \"data\" does not exist.")
@@ -45,6 +48,7 @@ def main(input_dir):
                 count_line += 1
     print("Expect %u files in input directory."%(count_expected))
 
+    # Noora: check what process is expected to be here
     # Go through files and find missing ones
     files = {}
     for f in os.listdir(input_dir):
@@ -63,6 +67,7 @@ def main(input_dir):
             missing_file = True
     print("Found %u files of %u expected files in input directory."%(len(files), count_expected))
 
+    """
     # Try to open files and see whether they are corrupted
     count_zombies = 0
     for i in files:
@@ -74,16 +79,15 @@ def main(input_dir):
             count_zombies += 1
         tfile.Close()
     print("Found %u zombie files of %u files in input directory."%(count_zombies, len(files)))
-
+    """ 
+  
     if missing_file:
         path_list = "arguments.txt"
         out_list = open(path_list, "w")
         for a in argument_list:
             out_list.write(a+"\n")
         #raise Exception("Found missing files, wrote arguments list to %s."%(path_list))
-
-
-     """    
+    
     #https://root-forum.cern.ch/t/moving-ttrees-into-tdirectories/25386/8
     #Extract directories and trees structure
     oldf = TFile.Open(files.values()[0],"READ")
