@@ -161,8 +161,8 @@ if doPat:
 	process.myjets= cms.EDAnalyzer('PatJetAnalyzer',
 				       InputCollection = cms.InputTag("selectedPatJetsAK5PFCorr"),
 				       isData = cms.bool(isData),
-				       jecUncName = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/'+JecString+'Uncertainty_AK5PF.txt'), 
-				       jerResName = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/JetResolutionInputAK5PF.txt')         
+				       jecUncName = cms.FileInPath('JEC/'+JecString+'Uncertainty_AK5PF.txt'), 
+				       jerResName = cms.FileInPath('JEC/JetResolutionInputAK5PF.txt')         
 				       )
 else:
 	if not isData:
@@ -177,12 +177,12 @@ else:
 	process.myjets= cms.EDAnalyzer('JetAnalyzer',
 				       InputCollection = cms.InputTag("ak5PFJets"),
 				       isData = cms.bool(isData),
-				       jecL1Name = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/'+JecString+'L1FastJet_AK5PF.txt'), 
-				       jecL2Name = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/'+JecString+'L2Relative_AK5PF.txt'),
-				       jecL3Name = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/'+JecString+'L3Absolute_AK5PF.txt'),
-				       jecResName = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/'+JecString+'L2L3Residual_AK5PF.txt'),
-				       jecUncName = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/'+JecString+'Uncertainty_AK5PF.txt'),
-				       jerResName = cms.FileInPath('PhysObjectExtractorTool/PhysObjectExtractor/JEC/JetResolutionInputAK5PF.txt')
+				       jecL1Name = cms.FileInPath('JEC/'+JecString+'L1FastJet_AK5PF.txt'), 
+				       jecL2Name = cms.FileInPath('JEC/'+JecString+'L2Relative_AK5PF.txt'),
+				       jecL3Name = cms.FileInPath('JEC/'+JecString+'L3Absolute_AK5PF.txt'),
+				       jecResName = cms.FileInPath('JEC/'+JecString+'L2L3Residual_AK5PF.txt'),
+				       jecUncName = cms.FileInPath('JEC/'+JecString+'Uncertainty_AK5PF.txt'),
+				       jerResName = cms.FileInPath('JEC/JetResolutionInputAK5PF.txt')
 				       )
 
 process.mymets= cms.EDAnalyzer('MetAnalyzer',
