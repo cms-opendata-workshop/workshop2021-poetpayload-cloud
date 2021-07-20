@@ -81,7 +81,7 @@ spec:
       image: rootproject/root:latest
       command: [bash]
       source: | 
-        hadd /mnt/vol/myoutput.root mnt/vol/data/myoutput*.root
+        hadd /mnt/vol/myoutput.root /mnt/vol/data/myoutput*.root
         rm -rf /mnt/vol/data
         # cd /mnt
         # python3 /mnt/data/merge_jobs.py /mnt/data    
