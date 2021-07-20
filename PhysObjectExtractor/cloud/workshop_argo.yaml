@@ -81,7 +81,8 @@ spec:
       image: rootproject/root:latest
       command: [bash]
       source: | 
-        hadd /mnt/vol/myoutput.root /mnt/vol/data/myoutput*.root
+        rm -f /mnt/vol/poetoutput.root
+        hadd /mnt/vol/poetoutput.root /mnt/vol/data/myoutput*.root
         rm -rf /mnt/vol/data
         # cd /mnt
         # python3 /mnt/data/merge_jobs.py /mnt/data    
@@ -110,11 +111,10 @@ spec:
         cd PhysObjectExtractorTool
         cd PhysObjectExtractor
         cd test
-        \cp -r /mnt/vol/myoutput.root ./
+        \cp -r /mnt/vol/poetoutput.root ./
         g++ -g -O3 -Wall -Wextra -o EventLoopAnalysis EventLoopAnalysisTemplate.cxx $(root-config --cflags --libs)
         ./EventLoopAnalysis
         
-        rm /mnt/vol/myoutput.root
         mv histograms.root /mnt/vol/histograms.root
 
 
