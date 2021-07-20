@@ -24,8 +24,8 @@ spec:
           - name: nevents
             value: "{{item.nevents}}"
         withItems:
-          - { file: 'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/20000/001E739E-9268-E211-A1E1-00259073E32A.root', it: '1',nevents: 1}
-          - { file: 'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/20000/004B3D2B-4767-E211-961A-E0CB4E29C4F1.root', it: '2',nevents: 1}
+          - { nevents: 1, it: '1', file: 'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/20000/001E739E-9268-E211-A1E1-00259073E32A.root'}
+          - { nevents: 1, it: '2', file: 'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/20000/004B3D2B-4767-E211-961A-E0CB4E29C4F1.root'}
       - name: merge-step
         dependencies: [scatter-step]
         template: merge-step-template
