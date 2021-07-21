@@ -32,11 +32,8 @@ spec:
       - name: merge-step
         dependencies: [scatter-step]
         template: merge-step-template
-      - name: get-analysis-step
-        dependencies: [merge-step]
-        template: get-analysis-step-template
       - name: eventloop-analysis-step
-        dependencies: [get-analysis-step]
+        dependencies: [merge-step]
         template: eventloop-analysis-step-template
 
   - name: write-files-step-template
@@ -47,7 +44,7 @@ spec:
         sudo chown $USER /mnt/vol
         mkdir -p /mnt/vol/data
         cernopendata-client get-file-locations --recid 6004 | tee /mnt/vol/data/files_6004.txt;
-        #cernopendata-client get-file-locations --recid 6004 --filter-range 1-1 | tee /mnt/vol/data/files_6004.txt;
+        #cernopendata-client get-file-locations --recid 6004 --filter-range 1-1 | tee /mnt/vol/data/scatter_6004.txt;
       volumeMounts:
       - name: task-pv-storage
         mountPath: /mnt/vol
@@ -73,9 +70,7 @@ spec:
         source /opt/cms/entrypoint.sh
         git clone git://github.com/cms-opendata-workshop/workshop2021-poetpayload-cloud.git
         
-        
-        cd workshop2021-poetpayload-cloud
-        cd PhysObjectExtractor
+        cd workshop2021-poetpayload-cloud/PhysObjectExtractor
         scram b
 
         mkdir -p /mnt/vol/scatter/processName
@@ -90,6 +85,7 @@ spec:
         mv myoutput.root /mnt/vol/scatter/processName/DoubleMuParked$iterator.root
 
         cp cloud/merge_job_cloud.py /mnt/vol/merge_job_cloud.py
+        cp test/EventLoopAnalysisTemplate.cxx /mnt/vol
 
       volumeMounts:
       - name: task-pv-storage
@@ -107,35 +103,12 @@ spec:
       command: [bash]
       source: | 
         rm -f /mnt/vol/poetoutput.root
-        #hadd /mnt/vol/poetoutput.root /mnt/vol/data/myoutput*.root
+        hadd /mnt/vol/poetoutput.root /mnt/vol/data/myoutput*.root
         
-        cd /mnt/vol
-        python3 /mnt/vol/merge_job_cloud.py /mnt/vol/scatter 
+        # cd /mnt/vol
+        # python3 /mnt/vol/merge_job_cloud.py /mnt/vol/scatter 
 
         rm -rf /mnt/vol/scatter/processName
-      volumeMounts:
-      - name: task-pv-storage
-        mountPath: /mnt/vol
-      resources:
-        limits:
-          memory: 2Gi
-        requests:
-          memory: 1.7Gi
-          cpu: 750m
-
-  - name: get-analysis-step-template
-    script:
-      image: nooraangelva/cmssw:10_6_12-argo-v2
-      command: [bash]
-      source: | 
-        sudo chown $USER /mnt/vol
-        source /opt/cms/cmsset_default.sh
-        cd $HOME/CMSSW_10_6_12/src
-        eval `scramv1 runtime -sh`
-
-        sudo rm -rf /mnt/vol/analysis
-        git clone https://github.com/cms-opendata-workshop/workshop2021-poetpayload-cloud.git /mnt/vol/analysis
-        
       volumeMounts:
       - name: task-pv-storage
         mountPath: /mnt/vol
@@ -151,9 +124,8 @@ spec:
       image: rootproject/root:latest
       command: [bash]
       source: | 
-        cd /mnt/vol/analysis/PhysObjectExtractor/test
         \cp -r /mnt/vol/poetoutput.root ./
-        g++ -g -O3 -Wall -Wextra -o EventLoopAnalysis EventLoopAnalysisTemplate.cxx $(root-config --cflags --libs)
+        g++ -g -O3 -Wall -Wextra -o EventLoopAnalysis /mnt/vol/EventLoopAnalysisTemplate.cxx $(root-config --cflags --libs)
         ./EventLoopAnalysis
 
         mv histograms.root /mnt/vol/histograms.root
