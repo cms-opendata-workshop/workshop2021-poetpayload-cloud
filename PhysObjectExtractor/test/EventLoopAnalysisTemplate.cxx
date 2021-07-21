@@ -78,11 +78,11 @@ EventLoopAnalysisTemplate::EventLoopAnalysisTemplate(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("myoutput.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("poetoutput.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("myoutput.root");
+         f = new TFile("poetoutput.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("myoutput.root:/myevents");
+      TDirectory * dir = (TDirectory*)f->Get("poetoutput.root:/myevents");
       dir->GetObject("Events",tree);
 
       //Get trees for friendship
