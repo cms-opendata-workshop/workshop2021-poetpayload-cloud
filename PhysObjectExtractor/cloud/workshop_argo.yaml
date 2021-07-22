@@ -34,7 +34,10 @@ spec:
       - name: recid
     dag:
       tasks:
+      - name: prepare
+        template: prepare-template
       - name: write-step
+        dependencies: [prepare]
         template: write-files-step-template
         arguments:
          parameters:
@@ -78,6 +81,17 @@ spec:
       - name: eventloop-analysis-step
         dependencies: [merge-step]
         template: eventloop-analysis-step-template
+        
+  - name: prepare-template
+    script:
+      image: ubuntu:latest
+      command: [bash]
+      source: |
+        mkdir -p /mnt/vol/data
+        chmod -R 777 /mnt/vol
+      volumeMounts:
+      - name: task-pv-storage
+        mountPath: /mnt/vol
 
   - name: write-files-step-template
     inputs:
@@ -91,8 +105,6 @@ spec:
       source: | 
         lastFile=$(( {{inputs.parameters.nFiles}}+{{inputs.parameters.firstFile}} ))
         realLastFile=$(( $lastFile - 1 ))
-
-        mkdir -p /mnt/vol/data
         cernopendata-client get-file-locations --recid {{inputs.parameters.recid}} --protocol xrootd > /mnt/vol/files_{{inputs.parameters.recid}}.txt;
         sed -n '{{inputs.parameters.firstFile}},'$realLastFile'p;'$lastFile'q' /mnt/vol/files_{{inputs.parameters.recid}}.txt > /mnt/vol/data/scatter_files.txt
        
