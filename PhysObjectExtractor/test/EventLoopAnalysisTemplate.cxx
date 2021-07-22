@@ -256,7 +256,7 @@ int main()
     h_mu_pt.Draw();
     c1->SaveAs("h_mu_pt.pdf");
     fout.cd();
-    h1.Write();
+    h_mu_pt.Write();
     fout.Close();
 
     return 1;
