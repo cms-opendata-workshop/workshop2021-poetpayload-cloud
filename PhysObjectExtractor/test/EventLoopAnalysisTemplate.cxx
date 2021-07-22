@@ -254,7 +254,7 @@ int main()
     TCanvas *c1 = new TCanvas("c1", "Test histograms", 400, 400);	
     c1->cd(0);
     h_mu_pt.Draw();
-    c1->SaveAs("h_mu_pt.png");
+    c1->SaveAs("h_mu_pt.pdf");
     fout.cd();
     h1.Write();
     fout.Close();
