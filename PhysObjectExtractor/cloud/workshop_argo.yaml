@@ -135,7 +135,7 @@ spec:
       source: |
         import json
         import sys
-        begin = {{inputs.parameters.firstFile}}-1
+        begin = {{inputs.parameters.firstFile}}
         end = {{inputs.parameters.firstFile}}+{{inputs.parameters.nFiles}}
         json.dump([i for i in range(begin,end)], sys.stdout)
 
