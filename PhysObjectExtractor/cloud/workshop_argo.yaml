@@ -201,7 +201,6 @@ spec:
         # python3 /mnt/vol/code/merge_job_cloud.py /mnt/vol/scatter/$processName
 
         rm -rf /mnt/vol/scatter/
-        rm -rf /mnt/vol/data
       volumeMounts:
       - name: task-pv-storage
         mountPath: /mnt/vol
