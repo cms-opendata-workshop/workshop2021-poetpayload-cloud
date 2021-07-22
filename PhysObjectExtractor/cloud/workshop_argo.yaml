@@ -110,7 +110,9 @@ spec:
         realLastFile=$(( $lastFile - 1 ))
         cernopendata-client get-file-locations --recid {{inputs.parameters.recid}} --protocol xrootd > /mnt/vol/files_{{inputs.parameters.recid}}.txt;
         sed -n '{{inputs.parameters.firstFile}},'$realLastFile'p;'$lastFile'q' /mnt/vol/files_{{inputs.parameters.recid}}.txt > /mnt/vol/data/scatter_files.txt
-       
+        echo Selected files:
+        cat /mnt/vol/data/scatter_files.txt
+        
       volumeMounts:
       - name: task-pv-storage
         mountPath: /mnt/vol
@@ -121,7 +123,7 @@ spec:
           memory: 1.7Gi
           cpu: 750m
 
-  # generate the iterator list
+  # generate the iterator list for the scatter step
   - name: gen-list-template
     inputs:
       parameters:
@@ -200,7 +202,9 @@ spec:
         # cd /mnt/vol
         # python3 /mnt/vol/code/merge_job_cloud.py /mnt/vol/scatter/$processName
 
-        rm -rf /mnt/vol/scatter/
+        rm -rf /mnt/vol/scatter/ # this contains the separated output files, now merged
+        rm -rf /mnt/vol/data  # this contains the list of selected files, it could be used in this step to check that all files have been processed
+        
       volumeMounts:
       - name: task-pv-storage
         mountPath: /mnt/vol
