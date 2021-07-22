@@ -249,16 +249,14 @@ int main()
     h_nmu->Write();
     h_mu_e->Write();
     h_mu_pt->Write();
+	
     hfile->Close();
 	
     TCanvas *c1 = new TCanvas("c1", "Test histograms", 400, 400);	
     c1->cd(0);
-    h_mu_pt.Draw();
+    h_mu_pt->Draw();
     c1->SaveAs("h_mu_pt.pdf");
-    fout.cd();
-    h_mu_pt.Write();
-    fout.Close();
-
+    
     return 1;
 
 }
