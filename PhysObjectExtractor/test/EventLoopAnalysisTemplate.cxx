@@ -33,7 +33,7 @@ using namespace std;
 TH1F* lumib = new TH1F("lumib","Luminosity block",10000,0,10000);
 TH1F* h_nmu = new TH1F("h_nmu","Number of muons",200,0,200);
 TH1F* h_mu_e = new TH1F("h_mu_e","Muon Energy",2000,0,2000);
-TH1F* h_mu_pt = new TH1F("h_mu_pt","Muon p_{T}",2000,0,2000);
+TH1F* h_mu_pt = new TH1F("h_mu_pt","Muon p_{T}",250,0,500);
 
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
