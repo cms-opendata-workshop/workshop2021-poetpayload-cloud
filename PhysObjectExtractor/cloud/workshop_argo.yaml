@@ -226,6 +226,7 @@ spec:
         ./EventLoopAnalysis
 
         mv histograms.root /mnt/vol/histograms.root
+        mv *.pdf /mnt/vol
         rm -rf /mnt/vol/code
         
       volumeMounts:
