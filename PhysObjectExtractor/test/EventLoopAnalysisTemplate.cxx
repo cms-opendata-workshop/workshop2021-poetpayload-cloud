@@ -249,6 +249,7 @@ int main()
     h_nmu->Write();
     h_mu_e->Write();
     h_mu_pt->Write();
+    h_mu_pt->SaveAs("h_mu_pt.png");	
     hfile->Close();
 
     return 1;
